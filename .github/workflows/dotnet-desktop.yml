@@ -12,7 +12,7 @@ jobs:
 
     env:
       BUILD_CONFIG: Release
-      SOLUTION_PATH: './src/CleanArchitecture.sln'
+      SOLUTION_PATH: './CleanArchitecture.sln'
       TEST_PROJECT: './tests/Application.FunctionalTests/Application.FunctionalTests.csproj'
       WEB_PROJECT: './src/WebUI/WebUI.csproj'
       PUBLISH_DIR: '${{ github.workspace }}/publish_output'
