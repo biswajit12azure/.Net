@@ -1,4 +1,4 @@
-name: .NET 8 CI/CD Pipeline
+name: .NET 8 CI Pipeline - CleanArchitecture
 
 on:
   push:
@@ -12,8 +12,9 @@ jobs:
 
     env:
       BUILD_CONFIG: Release
-      SOLUTION_NAME: '**/*.sln'
-      TEST_PROJECTS: '**/*Tests/*.csproj'
+      SOLUTION_PATH: './src/CleanArchitecture.sln'
+      TEST_PROJECT: './tests/Application.FunctionalTests/Application.FunctionalTests.csproj'
+      WEB_PROJECT: './src/WebUI/WebUI.csproj'
       PUBLISH_DIR: '${{ github.workspace }}/publish_output'
 
     steps:
@@ -29,24 +30,23 @@ jobs:
 
     # Step 3: Restore NuGet packages
     - name: Restore Dependencies
-      run: dotnet restore $env:SOLUTION_NAME
+      run: dotnet restore $env:SOLUTION_PATH
 
     # Step 4: Build the solution
     - name: Build Solution
-      run: dotnet build $env:SOLUTION_NAME --configuration $env:BUILD_CONFIG --no-restore
+      run: dotnet build $env:SOLUTION_PATH --configuration $env:BUILD_CONFIG --no-restore
 
     # Step 5: Run Unit Tests
     - name: Run Unit Tests
-      run: dotnet test $env:TEST_PROJECTS --configuration $env:BUILD_CONFIG --no-build --verbosity normal
+      run: dotnet test $env:TEST_PROJECT --configuration $env:BUILD_CONFIG --no-build --verbosity normal
 
-    # Step 6: Publish Web API (for example: src/WebUI/WebUI.csproj)
-    - name: Publish Web App
-      run: dotnet publish ./src/WebUI/WebUI.csproj --configuration $env:BUILD_CONFIG --output $env:PUBLISH_DIR
+    # Step 6: Publish Web API
+    - name: Publish Web API
+      run: dotnet publish $env:WEB_PROJECT --configuration $env:BUILD_CONFIG --output $env:PUBLISH_DIR
 
-    # Step 7: Upload Build Artifact
+    # Step 7: Upload Published Artifacts
     - name: Upload Published Artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: PublishedApp
+        name: PublishedWebApp
         path: ${{ env.PUBLISH_DIR }}
-
