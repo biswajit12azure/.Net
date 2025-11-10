@@ -13,7 +13,7 @@ jobs:
     env:
       BUILD_CONFIG: Release
       SOLUTION_PATH: './eShopOnWeb.sln'
-      TEST_PROJECT: './tests/Application.FunctionalTests/Application.FunctionalTests.csproj'
+      TEST_PROJECT: './tests/UnitTests/UnitTests.csproj'
       WEB_PROJECT: './src/WebUI/WebUI.csproj'
       PUBLISH_DIR: '${{ github.workspace }}/publish_output'
 
